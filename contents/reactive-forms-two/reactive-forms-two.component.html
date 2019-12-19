@@ -1,0 +1,67 @@
+<div class="container">
+
+    <mat-toolbar color="accent">
+        <h1>Register with PatchValues to get LocalStorage</h1>
+    </mat-toolbar>
+
+    <form [formGroup]="reactiveForm" (ngsubmit)="onSubmit()">
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Enter Name" type="text" formControlName="name">
+            <mat-error *ngIf="reactiveForm.controls?.name.errors?.required">name is required</mat-error>
+        </mat-form-field><br>
+
+        <mat-form-field class="full-width">
+            <input matInput placeholder="EmailId" type="text" formControlName="email">
+            <mat-error *ngIf="reactiveForm.controls?.email.errors?.required">email requried</mat-error>
+        </mat-form-field><br>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Create Your Password" formControlName="pass" required
+                [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="reactiveForm.controls.pass.errors?.required">Please Create Your Password</mat-error>
+        </mat-form-field><br>
+
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Enter MobileNumber" formControlName="mobile" minlength="10" maxlength="10"
+                required numbersOnly>
+            <mat-error *ngIf="reactiveForm.controls.mobile.errors?.required">Mobile Number is Required</mat-error>
+            <mat-error
+                *ngIf="reactiveForm.controls.mobile.errors?.minlength || reactiveForm.controls.mobile.errors?.maxlength">
+                Mobile Number Must be 10 digits Only</mat-error>
+            <mat-error *ngIf="reactiveForm.controls.mobile.errors?.pattern">Number Must be Digits Only</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Education Details</mat-label>
+            <mat-select formControlName="education" required>
+                <mat-option>select one Option</mat-option>
+                <mat-option *ngFor="let education of educations" [value]="education.viewValue">
+                    {{education.viewValue}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="reactiveForm.controls.education.errors?.required">please select one Option</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="picker" placeholder="date" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field><br>
+
+        <section>
+            <mat-radio-group formControlName="gender" required>
+                <mat-label> <b>Gender : </b></mat-label>
+                <mat-radio-button class="radio-margin" value="male">Male</mat-radio-button>
+                <mat-radio-button class="radio-margin" value="female">Female</mat-radio-button>
+            </mat-radio-group>
+        </section>
+
+        <div>
+            <button mat-raised-button class="btn btn-success" [disabled]="!reactiveForm.valid"
+                (click)="onSubmit()">Register</button>
+        </div>
+    </form>
+</div>
